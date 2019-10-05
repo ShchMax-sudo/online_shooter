@@ -42,7 +42,7 @@ EBullet1 = DownloadBMPPicture('BExplosion1')
 Border = DownloadBMP('Border')
 
 PExplosion = [Stage4P, Stage4P, Stage4P, Stage4P, Stage3P, Stage2P, Stage1P]
-BExplosion = [EBullet, EBullet, EBullet, EBullet, EBullet1]
+BExplosion = [EBullet, EBullet, EBullet, EBullet1]
 StageChangeTimeP = 2 / (len(PExplosion))
 StageChangeTimeB = 1 / (len(BExplosion))
 
