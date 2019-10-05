@@ -58,7 +58,7 @@ def ButtonPress(coords, ButtonsRect, ButtonsCircle):
         return ('NoBut', (False, -1))
 
 def ToGlobal(pos, PPos):
-    return (pos[0] + PPos[0], pos[1] + PPos[1])
+    return (pos[0] - PPos[0], pos[1] - PPos[1])
 
 def DownloadBMPPicture(PName):
     pict = pygame.image.load('Assets/' + PName + '.bmp')
@@ -67,7 +67,7 @@ def DownloadBMPPicture(PName):
     return pict
 
 def GetCentrixCoord(pict, coords):
-    print(coords)
+    #print(coords)
     PRect = (pict.get_rect()[2], pict.get_rect()[3])
     return (coords[0] - PRect[0] // 2, coords[1] - PRect[1] // 2)
 
@@ -115,12 +115,13 @@ SwipeR = False
 clock = pygame.time.Clock()
 
 while KeepGoing:
+    #print(PPos)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             KeepGoing = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             if pygame.mouse.get_pressed()[0]:
-                Result = ButtonPress(pygame.mouse.get_pos(), [ToGlobalRect(x, PPos) for x in RButtons], [[MAP[y], MAPR[y]] for y in range(len(MAP))] + [[x,  PlayerRadius] for x in Starts])
+                Result = ButtonPress(ToGlobal(pygame.mouse.get_pos(), PPos), [ToGlobalRect(x, PPos) for x in RButtons], [[MAP[y], MAPR[y]] for y in range(len(MAP))] + [[x,  PlayerRadius] for x in Starts])
                 if Result[0] == 'NoBut':
                     SwipeL = True
                     CentrixPoint = ToGlobal(pygame.mouse.get_pos(), PPos)
