@@ -124,7 +124,8 @@ def LandColisionCheck(Map, Radiuses, Coords, PRadius):
             return (True, (-Map[i][0] + Coords[0], -Map[i][1] + Coords[1]), Dist(Coords, Map[i]), Radiuses[i] + PRadius)
     return (False, (0, 0), 0, 0)
 
-MAP, MAPR, StartLocs = ReadMap('Test.fls')
+print('Enter name of map file without format')
+MAP, MAPR, StartLocs = ReadMap(input() + '.fls')
 
 def BulUpdate():
     global Bullets, Players, BSpeeds, IsBulletUpdate, BIndexes
