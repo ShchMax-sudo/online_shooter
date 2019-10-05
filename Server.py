@@ -40,6 +40,7 @@ def ReadMap(FileName):
     return (coords, Radiuses, StartLocations)
 
 def DecodeSpeed(code):
+    #print(code)
     comand = [0, 0]
     if code[0] == 'a':
         comand[0] = 1
@@ -191,7 +192,7 @@ def ClientWork(PI, conn):
                         ShotDist = Dist((0, 0), ShotLocation)
                         BSpeed = [ShotLocation[0] / ShotDist, ShotLocation[1] / ShotDist]
                         BSpeeds.append(BSpeed)
-                        Shift = 50
+                        Shift = 25 * max(abs(Comand[0]), abs(Comand[1])) * DeltaTime * SPEEDMUL * 0.25 + 5
                         Bullets.append([Players[PI][0] + BSpeed[0] * (PlayerRadius + BulletRadius + Shift), Players[PI][1] + BSpeed[1] * (PlayerRadius + BulletRadius + Shift)])
                         UpdateTimes.append(time.monotonic())
                         BExplTimes.append(-200)
@@ -249,19 +250,31 @@ def ClientWork(PI, conn):
                 SendMasCoords(Bullets, conn)
                 SendMasFloat(BExplTimes, conn)
                 IsBulletUpdate = True
-        except socket.timeout:
+        except:
             print('Client disconnected')
             Players.pop(PI)
             return
 
+def BulUpdTh():
+    while True:
+        BulUpdate()
+        IsBulletUpdate = False
+        IsBulletUpdate = True
+
 port = 3579
 sock = socket.socket(socket.AF_INET)
-IP = socket.gethostbyname(socket.gethostname())
+inp = input('Enter your computer IP or press [Enter] to set it automaticaly -->')
+if inp == '':
+    IP = socket.gethostbyname(socket.gethostname())
+else:
+    IP = inp
 print('Work started...')
 sock.bind((IP, port))
 print('Server IP -', IP, 'Port -', port)
 sock.listen(1)
 Index = 0
+#BUpd = threading.Thread(target = BulUpdTh, args = ())
+#BUpd.start()
 while True:
     print('Waiting for clients...')
     conn, addr = sock.accept()
