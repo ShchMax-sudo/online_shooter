@@ -191,7 +191,7 @@ def ClientWork(PI, conn):
                         ShotDist = Dist((0, 0), ShotLocation)
                         BSpeed = [ShotLocation[0] / ShotDist, ShotLocation[1] / ShotDist]
                         BSpeeds.append(BSpeed)
-                        Shift = 20
+                        Shift = 50
                         Bullets.append([Players[PI][0] + BSpeed[0] * (PlayerRadius + BulletRadius + Shift), Players[PI][1] + BSpeed[1] * (PlayerRadius + BulletRadius + Shift)])
                         UpdateTimes.append(time.monotonic())
                         BExplTimes.append(-200)
