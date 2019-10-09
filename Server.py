@@ -205,6 +205,14 @@ def ClientWork(PI, conn):
         try:
             while True:
                 Comand = DecodeSpeed(conn.recv(2).decode())
+                IsBulletUpdate = False
+                SendPlayers(Players, conn)
+                #print(PExplTimes)
+                SendMasFloat(PExplTimes, conn)
+                #print(Bullets)
+                SendMasCoords(Bullets, conn)
+                SendMasFloat(BExplTimes, conn)
+                IsBulletUpdate = True
                 #print(comand)
                 if abs(Comand[0] * Comand[1]) != 0:
                     Comand[0] /= 2 ** 0.5
@@ -225,29 +233,9 @@ def ClientWork(PI, conn):
                         Bullets.append([Players[PI][0] + BSpeed[0] * (PlayerRadius + BulletRadius + Shift), Players[PI][1] + BSpeed[1] * (PlayerRadius + BulletRadius + Shift)])
                         UpdateTimes.append(time.monotonic())
                         BExplTimes.append(-200)
-                        #print(Bullets[-1])
-                        #BIndexes.append(PI)
                     
-                    #print(Comand)
                     TestLocation = [0, 0]
                     PSpeeds[PI] = Comand
-##                    TestLocation[0] = Players[PI][0] + Comand[0] * DeltaTime * SPEEDMUL
-##                    TestLocation[1] = Players[PI][1] + Comand[1] * DeltaTime * SPEEDMUL
-##                    PlayerColisionResult = ColisionCheck(Players, PI, TestLocation, PlayerRadius)
-##                    MapColisionResult = LandColisionCheck(MAP, MAPR, TestLocation, PlayerRadius)
-##                    while PlayerColisionResult[0] or MapColisionResult[0]:
-##                        if PlayerColisionResult[0]:
-##                            #print('PlayerColision')
-##                            TestLocation[0] += (PlayerColisionResult[1][0] / PlayerColisionResult[2]) * (PlayerColisionResult[3] - PlayerColisionResult[2] + 1)
-##                            TestLocation[1] += (PlayerColisionResult[1][1] / PlayerColisionResult[2]) * (PlayerColisionResult[3] - PlayerColisionResult[2] + 1)
-##                        elif MapColisionResult[0]:
-##                            #print('MapColision')
-##                            TestLocation[0] += (MapColisionResult[1][0] / MapColisionResult[2]) * (MapColisionResult[3] - MapColisionResult[2] + 1)
-##                            TestLocation[1] += (MapColisionResult[1][1] / MapColisionResult[2]) * (MapColisionResult[3] - MapColisionResult[2] + 1)
-##                        #print(TestLocation)
-##                        PlayerColisionResult = ColisionCheck(Players, PI, TestLocation, PlayerRadius)
-##                        MapColisionResult = LandColisionCheck(MAP, MAPR, TestLocation, PlayerRadius)
-##                    Players[PI] = TestLocation
                 else:
                     
                     if conn.recv(1) == b'1':
@@ -259,14 +247,6 @@ def ClientWork(PI, conn):
                         Players[PI] = StartLocs[randint(0, len(StartLocs) - 1)]
                         PExplTimes[PI] = -200
                 BulUpdate()
-                IsBulletUpdate = False
-                SendPlayers(Players, conn)
-                #print(PExplTimes)
-                SendMasFloat(PExplTimes, conn)
-                #print(Bullets)
-                SendMasCoords(Bullets, conn)
-                SendMasFloat(BExplTimes, conn)
-                IsBulletUpdate = True
         except:
             print('Client disconnected')
             Players.pop(PI)
