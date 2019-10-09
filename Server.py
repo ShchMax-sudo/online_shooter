@@ -18,7 +18,7 @@ PSpeeds = {}
 BTimeExplosion = 1
 PTimeExplosion = 2
 
-SPEEDMUL = 240
+SPEEDMUL = 100
 BSPEEDMUL = SPEEDMUL * 3
 
 PlayerRadius = 30
@@ -221,10 +221,9 @@ def ClientWork(PI, conn):
                 timemonot = time.monotonic()
                 DeltaTime = timemonot - tm
                 tm = timemonot
-                #print(PExplTimes)
+                
                 if PExplTimes[PI] == -200:
                     if conn.recv(1) == b'1':
-                        #print('Shot')
                         ShotLocation = GetCoord(conn)
                         ShotDist = Dist((0, 0), ShotLocation)
                         BSpeed = [ShotLocation[0] / ShotDist, ShotLocation[1] / ShotDist]
