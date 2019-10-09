@@ -13,8 +13,8 @@ class Point():
 
 opens = input("Did you want to get open cut?(y/n):\n") == "y"
 x1, y1, x2, y2 = map(int, input("Input coords of begin and end of cut:\n").split())
-a = Point(x2 - x1, y2 - y1).resize(60)
-b = int(((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5) // 60 + 1
+a = Point(x2 - x1, y2 - y1).resize(30)
+b = int(((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5) // 30 + 1
 print((b + (not opens)))
 print()
 for i in range(b):
